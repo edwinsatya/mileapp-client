@@ -2,15 +2,15 @@
   <ClientOnly>
     <div class="min-h-screen flex items-center justify-center bg-blue-100">
       <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h1 class="text-2xl font-bold text-blue-700 mb-6 text-center">Login</h1>
+        <h1 class="text-2xl font-bold text-blue-700 mb-6 text-center">Register</h1>
         <AuthForm
           :fields="fields"
-          button-text="Login"
-          @submit="handleLogin"
+          button-text="Register"
+          @submit="handleRegister"
         />
         <div class="mt-4 text-center">
-          <NuxtLink to="/register" class="text-blue-600 hover:underline">
-            Don't have an account? Register
+          <NuxtLink to="/login" class="text-blue-600 hover:underline">
+            Already have an account? Login
           </NuxtLink>
         </div>
       </div>
@@ -19,20 +19,17 @@
 </template>
 
 <script setup lang="ts">
-import { useLocalStorage } from '~/composables/useLocalStorage';
-
 const { show } = useNotification();
-const { setLocalStorage } = useLocalStorage()
 const router = useRouter()
-
 const fields = [
+  { name: 'name', label: 'Name', type: 'text', placeholder: 'Enter your name' },
   { name: 'email', label: 'Email', type: 'email', placeholder: 'Enter your email' },
   { name: 'password', label: 'Password', type: 'password', placeholder: 'Enter your password' }
 ]
 
-async function handleLogin(formData: Record<string, string>) {
+async function handleRegister(formData: Record<string, string>) {
   try {
-    const data = await useApiFetch('/login', {
+    const data = await useApiFetch('/register', {
       method: 'POST',
       body: JSON.stringify(formData),
     })
@@ -42,15 +39,13 @@ async function handleLogin(formData: Record<string, string>) {
         : data.error
       show('error', errMessage)
     } else {
-      setLocalStorage('token', data.token)
-      setLocalStorage('user', JSON.stringify(data.user))
-      show('success', 'Login successful!')
+      show('success', 'Registration successful!')
       setTimeout(() => {
-        router.push('/')
+        router.push('/login')
       }, 2000)
     }
   } catch (err: unknown) {
-    const errorMessage = err instanceof Error ? err.message : 'Login failed'
+    const errorMessage = err instanceof Error ? err.message : 'Registration failed'
     show('error', errorMessage)
   }
 }

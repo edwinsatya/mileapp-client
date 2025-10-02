@@ -10,5 +10,10 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.NUXT_API_BASE,
+    },
+  },
   modules: ['@nuxt/eslint']
 })
