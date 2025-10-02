@@ -1,29 +1,23 @@
 <template>
-  <ClientOnly>
-    <div class="min-h-screen flex items-center justify-center bg-blue-100">
-      <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
-        <h1 class="text-2xl font-bold text-blue-700 mb-6 text-center">Login</h1>
-        <AuthForm
-          :fields="fields"
-          button-text="Login"
-          @submit="handleLogin"
-        />
-        <div class="mt-4 text-center">
-          <NuxtLink to="/register" class="text-blue-600 hover:underline">
-            Don't have an account? Register
-          </NuxtLink>
-        </div>
+  <div class="min-h-screen flex items-center justify-center bg-blue-100">
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+      <h1 class="text-2xl font-bold text-blue-700 mb-6 text-center">Login</h1>
+      <AuthForm
+        :fields="fields"
+        button-text="Login"
+        @submit="handleLogin"
+      />
+      <div class="mt-4 text-center">
+        <NuxtLink to="/register" class="text-blue-600 hover:underline">
+          Don't have an account? Register
+        </NuxtLink>
       </div>
     </div>
-  </ClientOnly>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { useLocalStorage } from '~/composables/useLocalStorage';
-
 const { show } = useNotification();
-const { setLocalStorage } = useLocalStorage()
-const router = useRouter()
 
 const fields = [
   { name: 'email', label: 'Email', type: 'email', placeholder: 'Enter your email' },
@@ -35,6 +29,7 @@ async function handleLogin(formData: Record<string, string>) {
     const data = await useApiFetch('/login', {
       method: 'POST',
       body: JSON.stringify(formData),
+      credentials: 'include'
     })
     if (data.error) {
       const errMessage = Array.isArray(data.details)
@@ -42,12 +37,8 @@ async function handleLogin(formData: Record<string, string>) {
         : data.error
       show('error', errMessage)
     } else {
-      setLocalStorage('token', data.token)
-      setLocalStorage('user', JSON.stringify(data.user))
       show('success', 'Login successful!')
-      setTimeout(() => {
-        router.push('/')
-      }, 2000)
+      navigateTo('/')
     }
   } catch (err: unknown) {
     const errorMessage = err instanceof Error ? err.message : 'Login failed'
