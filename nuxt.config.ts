@@ -15,5 +15,5 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_API_BASE,
     },
   },
-  modules: ['@nuxt/eslint']
+  modules: ['@nuxt/eslint', "@pinia/nuxt"]
 })

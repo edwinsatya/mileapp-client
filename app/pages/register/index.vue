@@ -28,7 +28,7 @@ const fields = [
 async function handleRegister(formData: Record<string, string>) {
   try {
     const data = await useApiFetch('/register', {
-      method: 'POST',
+      method: 'post',
       body: JSON.stringify(formData),
     })
     if (data.error) {

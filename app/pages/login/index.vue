@@ -17,6 +17,8 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from '~/stores/user';
+
 const { show } = useNotification();
 
 const fields = [
@@ -25,9 +27,11 @@ const fields = [
 ]
 
 async function handleLogin(formData: Record<string, string>) {
+  const userStore = useUserStore()
+  
   try {
     const data = await useApiFetch('/login', {
-      method: 'POST',
+      method: 'post',
       body: JSON.stringify(formData),
       credentials: 'include'
     })
@@ -37,6 +41,7 @@ async function handleLogin(formData: Record<string, string>) {
         : data.error
       show('error', errMessage)
     } else {
+      userStore.setUser(data.user) 
       show('success', 'Login successful!')
       navigateTo('/')
     }
