@@ -7,3 +7,15 @@ export interface Task {
   author: string
   goal: string
 }
+
+export interface MetaTask {
+  page: number
+  limit: number
+  total: number
+  totalPages: number 
+}
+
+export interface TaskResponse {
+  tasks: Task[]
+  meta: MetaTask
+}

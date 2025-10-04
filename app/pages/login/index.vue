@@ -35,6 +35,7 @@ async function handleLogin(formData: Record<string, string>) {
       body: formData,
       credentials: 'include'
     })
+    userStore.setToken(res.token)
     userStore.setUser(res.user)
     show('success', res.message)
     navigateTo('/')

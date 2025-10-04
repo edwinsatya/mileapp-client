@@ -10,6 +10,9 @@ export const useUserStore = defineStore('user', {
     setUser(userData: User) {
       this.user = userData
     },
+    setToken(token: string) {
+      this.token = token
+    },
     clearUser() {
       this.user = null
       this.token = ''

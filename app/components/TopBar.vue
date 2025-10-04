@@ -1,16 +1,19 @@
 <template>
-  <nav class="flex items-center justify-between p-4 bg-gray-800 text-gray-100 shadow-md">
+  <nav
+    class="fixed top-0 left-0 w-full flex items-center justify-between py-4 px-6 bg-white/90 backdrop-blur-md text-gray-800 shadow-md z-50 transition-shadow duration-300"
+    :class="{ 'shadow-xl': isScrolled }"
+  >
     <div class="text-2xl font-bold">
       <slot name="title" />
     </div>
 
     <div class="flex items-center space-x-3">
-      <span class="font-medium text-gray-100">{{ userName }}</span>
+      <span class="font-medium text-gray-800">{{ userName }}</span>
       <button
-        class="px-2 cursor-pointer text-sm bg-red-500 pt-1 pb-2 text-white rounded-md hover:bg-red-600 transition flex items-center justify-center"
+        class="px-3 py-1 cursor-pointer text-sm bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-md hover:from-blue-600 hover:to-indigo-700 transition flex items-center justify-center"
         @click="handleLogout"
       >
-        <span>Logout</span>
+        Logout
       </button>
     </div>
   </nav>
@@ -42,4 +45,18 @@ async function handleLogout() {
     show('error', errMessage)
   }
 }
+
+const isScrolled = ref(false)
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 10
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
