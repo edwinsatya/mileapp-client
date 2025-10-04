@@ -19,6 +19,7 @@
 <script setup lang="ts">
 import type { FetchError } from 'ofetch';
 import type { ErrorWithMessage, RegisterResponse } from '~/types/auth';
+
 const { show } = useNotification();
 
 const fields = [

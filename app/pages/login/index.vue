@@ -19,6 +19,7 @@
 <script setup lang="ts">
 import type { FetchError } from 'ofetch';
 import type { ErrorWithMessage, LoginResponse } from '~/types/auth';
+
 const { show } = useNotification();
 const userStore = useUserStore()
 
