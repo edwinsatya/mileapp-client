@@ -2,7 +2,7 @@
   <div class="min-h-screen flex items-center justify-center bg-blue-100">
     <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-blue-700 mb-6 text-center">Login</h1>
-      <AuthForm
+      <auth-form
         :fields="fields"
         button-text="Login"
         @submit="handleLogin"
@@ -17,9 +17,10 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from '~/stores/user';
-
+import type { FetchError } from 'ofetch';
+import type { ErrorWithMessage, LoginResponse } from '~/types/auth';
 const { show } = useNotification();
+const userStore = useUserStore()
 
 const fields = [
   { name: 'email', label: 'Email', type: 'email', placeholder: 'Enter your email' },
@@ -27,27 +28,19 @@ const fields = [
 ]
 
 async function handleLogin(formData: Record<string, string>) {
-  const userStore = useUserStore()
-  
   try {
-    const data = await useApiFetch('/login', {
-      method: 'post',
-      body: JSON.stringify(formData),
+    const res: LoginResponse = await $fetch(`${useGetApiBase('/login')}`, {
+      method: 'POST',
+      body: formData,
       credentials: 'include'
     })
-    if (data.error) {
-      const errMessage = Array.isArray(data.details)
-        ? data.details.map((d: { field: string; message: string }) => `${d.field}: ${d.message}`).join('\n')
-        : data.error
-      show('error', errMessage)
-    } else {
-      userStore.setUser(data.user) 
-      show('success', 'Login successful!')
-      navigateTo('/')
-    }
-  } catch (err: unknown) {
-    const errorMessage = err instanceof Error ? err.message : 'Login failed'
-    show('error', errorMessage)
+    userStore.setUser(res.user)
+    show('success', res.message)
+    navigateTo('/')
+  } catch (err) {
+    const error = err as FetchError<ErrorWithMessage>
+    const errMessage = useGetErrorMessage(error.data!)
+    show('error', errMessage)
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
     <slot />
-    <NotificationPopup />
+    <notification-popup />
   </div>
 </template>

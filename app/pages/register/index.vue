@@ -2,7 +2,7 @@
   <div class="min-h-screen flex items-center justify-center bg-blue-100">
     <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
       <h1 class="text-2xl font-bold text-blue-700 mb-6 text-center">Register</h1>
-      <AuthForm
+      <auth-form
         :fields="fields"
         button-text="Register"
         @submit="handleRegister"
@@ -17,6 +17,8 @@
 </template>
 
 <script setup lang="ts">
+import type { FetchError } from 'ofetch';
+import type { ErrorWithMessage, RegisterResponse } from '~/types/auth';
 const { show } = useNotification();
 
 const fields = [
@@ -27,22 +29,17 @@ const fields = [
 
 async function handleRegister(formData: Record<string, string>) {
   try {
-    const data = await useApiFetch('/register', {
-      method: 'post',
-      body: JSON.stringify(formData),
+    const res: RegisterResponse = await $fetch(`${useGetApiBase('/register')}`, {
+      method: 'POST',
+      body: formData,
+      credentials: 'include'
     })
-    if (data.error) {
-      const errMessage = Array.isArray(data.details)
-        ? data.details.map((d: { field: string; message: string }) => `${d.field}: ${d.message}`).join('\n')
-        : data.error
-      show('error', errMessage)
-    } else {
-      show('success', 'Registration successful!')
-      navigateTo('/login')
-    }
-  } catch (err: unknown) {
-    const errorMessage = err instanceof Error ? err.message : 'Registration failed'
-    show('error', errorMessage)
+    show('success', res.message)
+    navigateTo('/login')
+  } catch (err) {
+    const error = err as FetchError<ErrorWithMessage>
+    const errMessage = useGetErrorMessage(error.data!)
+    show('error', errMessage)
   }
 }
 </script>

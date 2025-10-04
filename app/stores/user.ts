@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia';
+import type { User } from '~/types/user';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    user: null as null | { id: string; name: string; email: string },
+    user: null as null | User,
     token: ''
   }),
   actions: {
-    setUser(userData: { id: string; name: string; email: string }) {
+    setUser(userData: User) {
       this.user = userData
     },
     clearUser() {
@@ -15,11 +16,11 @@ export const useUserStore = defineStore('user', {
     },
     async fetchUser(token: string) {
       try {
-        const data = await useApiFetch('/token', {
+        const res: { user: User } = await $fetch(`${useGetApiBase('/token')}`, {
           method: 'get',
           headers: { token }
         })
-        this.user = data.user
+        this.user = res.user
         this.token = token
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {

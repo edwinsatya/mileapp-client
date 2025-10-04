@@ -1,5 +1,5 @@
 <template>
-   <nav class="flex items-center justify-between p-4 bg-gray-800 text-gray-100 shadow-md">
+  <nav class="flex items-center justify-between p-4 bg-gray-800 text-gray-100 shadow-md">
     <div class="text-2xl font-bold">
       <slot name="title" />
     </div>
@@ -10,37 +10,35 @@
         class="px-2 cursor-pointer text-sm bg-red-500 pt-1 pb-2 text-white rounded-md hover:bg-red-600 transition flex items-center justify-center"
         @click="handleLogout"
       >
-      <span>Logout</span>
+        <span>Logout</span>
       </button>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
+import type { FetchError } from 'ofetch';
+import type { ErrorWithMessage } from '~/types/auth';
 defineProps<{
   userName: string
 }>()
 
 const { show } = useNotification()
+const userStore = useUserStore()
 
 async function handleLogout() {
   try {
-    const data = await useApiFetch('/logout', {
-      method: 'post',
+    await $fetch(`${useGetApiBase('/logout')}`, {
+      method: 'POST',
       credentials: 'include'
     })
-    if (data.error) {
-      const errMessage = Array.isArray(data.details)
-        ? data.details.map((d: { field: string; message: string }) => `${d.field}: ${d.message}`).join('\n')
-        : data.error
-      show('error', errMessage)
-    } else {
-      show('success', 'Logout successful!')
-      navigateTo('/login')
-    }
-  } catch (err: unknown) {
-    const errorMessage = err instanceof Error ? err.message : 'Logout failed'
-    show('error', errorMessage)
+    show('success', 'Logout successful!')
+    userStore.clearUser()
+    navigateTo('/login')
+  } catch (err) {
+    const error = err as FetchError<ErrorWithMessage>
+    const errMessage = useGetErrorMessage(error.data!)
+    show('error', errMessage)
   }
 }
 </script>
