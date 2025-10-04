@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-16 flex flex-col min-h-[calc(100vh-6rem)]">
+  <div class="mt-16 flex flex-col">
     <div class="p-6 flex-1">
       <loading-spinner v-if="pending" />
       <task-list v-else-if="data?.tasks?.length" :tasks="data.tasks" />
