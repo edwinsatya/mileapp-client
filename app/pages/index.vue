@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-16 flex flex-col min-h-[calc(100vh-6rem)] max-h-[calc(100vh-6rem)]">
+  <div class="mt-16 flex flex-col">
     <div class="p-6 flex-1">
       <header-tasks />
       <loading-spinner v-if="pending" title="Loading tasks..." />
