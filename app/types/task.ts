@@ -3,9 +3,10 @@ export interface Task {
   createdAt: string
   title: string
   description: string
-  status?: string
+  status: number
   author: string
   goal: string
+  dueDate: string
 }
 
 export interface MetaTask {
