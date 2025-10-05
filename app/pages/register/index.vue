@@ -20,6 +20,12 @@
 <script setup lang="ts">
 import type { FetchError } from 'ofetch';
 import type { ErrorWithMessage, RegisterResponse } from '~/types/auth';
+useHead({
+  title: 'Register Page',
+  meta: [
+    { name: 'description', content: 'Create user' },
+  ]
+})
 
 const { show } = useNotification();
 

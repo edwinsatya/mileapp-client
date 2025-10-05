@@ -21,6 +21,12 @@ import TaskForm from '@/components/TaskForm.vue';
 import type { FetchError } from 'ofetch';
 import type { ErrorWithMessage } from '~/types/auth';
 import type { Task, TaskResponseWithMessage } from '~/types/task';
+useHead({
+  title: 'Edit Task Page',
+  meta: [
+    { name: 'description', content: 'Edit task' },
+  ]
+})
 
 definePageMeta({ layout: 'main' })
 

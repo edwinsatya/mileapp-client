@@ -17,6 +17,12 @@
 
 <script setup lang="ts">
 import type { TaskResponse } from '~/types/task';
+useHead({
+  title: 'Task List',
+  meta: [
+    { name: 'description', content: 'Task Management' },
+  ]
+})
 
 definePageMeta({ layout: 'main' })
 

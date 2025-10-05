@@ -20,6 +20,12 @@
 <script setup lang="ts">
 import type { FetchError } from 'ofetch';
 import type { ErrorWithMessage, LoginResponse } from '~/types/auth';
+useHead({
+  title: 'Login Page',
+  meta: [
+    { name: 'description', content: 'Login user' },
+  ]
+})
 
 const { show } = useNotification();
 const userStore = useUserStore()

@@ -16,6 +16,12 @@
 import type { FetchError } from 'ofetch';
 import type { ErrorWithMessage } from '~/types/auth';
 import type { Task, TaskResponseWithMessage } from '~/types/task';
+useHead({
+  title: 'Create Task Page',
+  meta: [
+    { name: 'description', content: 'Create task' },
+  ]
+})
 
 definePageMeta({ layout: 'main' })
 
