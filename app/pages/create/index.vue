@@ -15,11 +15,11 @@
 <script setup lang="ts">
 import type { FetchError } from 'ofetch';
 import type { ErrorWithMessage } from '~/types/auth';
-import type { CreateTaskResponse, Task } from '~/types/task';
+import type { Task, TaskResponseWithMessage } from '~/types/task';
 
 definePageMeta({ layout: 'main' })
 
-const { show } = useNotification();
+const { show } = useNotification()
 const userStore = useUserStore()
 const pending = ref(false)
 
@@ -39,13 +39,13 @@ const handleSubmit = async () => {
   pending.value = true
   try {
     const payload = { ...task.value, dueDate: new Date(task.value.dueDate).toISOString() }
-    const res: CreateTaskResponse = await $fetch(`${useGetApiBase('/tasks')}`, {
+    const res: TaskResponseWithMessage = await $fetch(`${useGetApiBase('/tasks')}`, {
       method: 'POST',
       headers: { token: userStore.token },
       body: payload,
     })
     show('success', res.message)
-    navigateTo('/', { external: true })
+    navigateTo('/')
   } catch (err) {
     const error = err as FetchError<ErrorWithMessage>
     const errMessage = useGetErrorMessage(error.data!)

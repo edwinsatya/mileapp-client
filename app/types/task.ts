@@ -10,8 +10,9 @@ export interface Task {
   dueDate: string
 }
 
-export interface CreateTaskResponse extends Task {
+export interface TaskResponseWithMessage {
   message: string
+  task: Task
 }
 
 export interface MetaTask {

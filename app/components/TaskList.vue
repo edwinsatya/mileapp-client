@@ -1,8 +1,5 @@
 <template>
-  <h1 class="text-3xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-    Task List
-  </h1>
-
+  <h1 class="text-3xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Task List</h1>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     <div
       v-for="task in tasks"
@@ -23,6 +20,7 @@
           ? 'opacity-50 cursor-not-allowed pointer-events-none'
           : 'cursor-pointer hover:-translate-y-1'
       ]"
+      @click="navigateTo(`/${task.id}`)"
     >
       <task-card :task="task" />
     </div>

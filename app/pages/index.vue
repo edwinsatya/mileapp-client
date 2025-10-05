@@ -1,16 +1,8 @@
 <template>
   <div class="mt-16 flex flex-col min-h-[calc(100vh-6rem)] max-h-[calc(100vh-6rem)]">
     <div class="p-6 flex-1">
-      <div class="mb-4 flex justify-end">
-        <button
-          class="px-4 py-2 cursor-pointer bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
-          @click="navigateTo('/create')"
-        >
-          Create Task
-        </button>
-      </div>
-
-      <loading-spinner v-if="pending" />
+      <header-tasks />
+      <loading-spinner v-if="pending" title="Loading tasks..." />
       <task-list v-else-if="data?.tasks?.length" :tasks="data.tasks" />
       <empty-tasks v-else title="No tasks available" sub-title="You have not created any tasks yet." />
     </div>

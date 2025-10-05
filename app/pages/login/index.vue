@@ -42,7 +42,7 @@ async function handleLogin(formData: Record<string, string>) {
     userStore.setToken(res.token)
     userStore.setUser(res.user)
     show('success', res.message)
-    navigateTo('/', { external: true })
+    navigateTo('/')
   } catch (err) {
     const error = err as FetchError<ErrorWithMessage>
     const errMessage = useGetErrorMessage(error.data!)
