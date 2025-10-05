@@ -11,7 +11,9 @@ export const useTaskStore = defineStore('task', {
       totalPages: 0,
       sortBy: 'createdAt',
       sortOrder: 'desc',
-      filter: {} as Record<string, string>,
+      filter: {
+        title: ''
+      },
     }
   }),
   actions: {
@@ -29,7 +31,11 @@ export const useTaskStore = defineStore('task', {
       this.query.sortOrder = sortOrder
     },
     setFilter(filter: { title: string }) {
-      this.query.filter = filter
+      this.query = {
+        ...this.query,
+        page: 1,
+        filter
+      }
     },
     clearQuery() {
       this.query = {
@@ -39,7 +45,9 @@ export const useTaskStore = defineStore('task', {
         totalPages: 1,
         sortBy: 'createdAt',
         sortOrder: 'desc',
-        filter: {}
+        filter: {
+          title: ''        
+        }
       }
     }
   },
@@ -52,9 +60,9 @@ export const useTaskStore = defineStore('task', {
         sortOrder: state.query.sortOrder,
       });
 
-      Object.entries(state.query.filter).forEach(([k, v]) => {
-        if (v) newQuery.append(`filter[${k}]`, v);
-      });
+      if (state.query.filter.title) {
+        newQuery.append('title', state.query.filter.title)
+      }
 
       return newQuery.toString();
     }

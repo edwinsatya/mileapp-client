@@ -51,6 +51,15 @@
 
     <div class="flex justify-end items-center space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
       <button
+        type="button"
+        class="bg-gray-300 mr-auto hover:bg-gray-700 text-white font-medium px-5 py-2 rounded transition disabled:opacity-50 cursor-pointer"
+        :disabled="loading"
+        @click="navigateTo('/')"
+      >
+        Cancel
+      </button>
+
+      <button
         v-if="showDelete"
         type="button"
         class="bg-red-500 hover:bg-red-600 text-white font-medium px-4 py-2 rounded transition disabled:opacity-50 cursor-pointer"
