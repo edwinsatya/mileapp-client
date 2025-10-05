@@ -20,7 +20,7 @@ export const useUserStore = defineStore('user', {
     async fetchUser(token: string) {
       try {
         const res: { user: User } = await $fetch(`${useGetApiBase('/token')}`, {
-          method: 'get',
+          method: 'GET',
           headers: { token }
         })
         this.user = res.user

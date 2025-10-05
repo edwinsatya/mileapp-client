@@ -1,5 +1,6 @@
 export interface Task {
   id: number
+  userId: number
   createdAt: string
   title: string
   description: string
@@ -7,6 +8,10 @@ export interface Task {
   author: string
   goal: string
   dueDate: string
+}
+
+export interface CreateTaskResponse extends Task {
+  message: string
 }
 
 export interface MetaTask {

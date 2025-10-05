@@ -8,7 +8,8 @@
       v-for="task in tasks"
       :key="task.id"
       :class="[
-        'rounded-xl cursor-pointer bg-white p-5 flex flex-col justify-between transition-transform duration-300 transform hover:-translate-y-1',
+        'rounded-xl cursor-pointer p-5 flex flex-col justify-between transition-transform duration-300 transform hover:-translate-y-1',
+        isDisabled(Number(task.userId), Number(userStore.user?.id)) ? 'bg-gray-200' : 'bg-white',
         task.status === 2
           ? 'border-l-4 border-blue-500 shadow-md hover:shadow-blue-300/50'
           : task.status === 3
@@ -17,7 +18,10 @@
           ? 'border-l-4 border-purple-500 shadow-md hover:shadow-purple-300/50'
           : task.status === 5
           ? 'border-l-4 border-green-500 shadow-md hover:shadow-green-300/50'
-          : 'border-l-4 border-gray-300 shadow-md hover:shadow-gray-200/50'
+          : 'border-l-4 border-gray-300 shadow-md hover:shadow-gray-200/50',
+        Number(task.userId) !== Number(userStore.user?.id)
+          ? 'opacity-50 cursor-not-allowed pointer-events-none'
+          : 'cursor-pointer hover:-translate-y-1'
       ]"
     >
       <task-card :task="task" />
@@ -31,4 +35,9 @@ import type { Task } from '~/types/task';
 defineProps<{
   tasks: Task[]
 }>()
+
+const userStore = useUserStore()
+function isDisabled(userId: number, taskUserId: number) {
+  return userId !== taskUserId
+}
 </script>

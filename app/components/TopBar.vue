@@ -3,7 +3,7 @@
     class="fixed top-0 left-0 w-full flex items-center justify-between py-4 px-6 bg-white/90 backdrop-blur-md text-gray-800 shadow-md z-50 transition-shadow duration-300"
     :class="{ 'shadow-xl': isScrolled }"
   >
-    <div class="text-2xl font-bold">
+    <div class="text-2xl font-bold cursor-pointer" @click="navigateTo('/', { external: true })">
       <slot name="title" />
     </div>
 

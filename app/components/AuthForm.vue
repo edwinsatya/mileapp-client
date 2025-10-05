@@ -14,7 +14,7 @@
     </div>
     <button
       type="submit"
-      class="w-full py-2 rounded text-white transition bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:bg-gray-400"
+      class="w-full cursor-pointer py-2 rounded text-white transition bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:bg-gray-400"
       :disabled="disabled"
     >
       {{ buttonText }}
