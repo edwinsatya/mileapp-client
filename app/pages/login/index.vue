@@ -5,6 +5,7 @@
       <auth-form
         :fields="fields"
         button-text="Login"
+        :disabled="pending"
         @submit="handleLogin"
       />
       <div class="mt-4 text-center">
@@ -28,7 +29,10 @@ const fields = [
   { name: 'password', label: 'Password', type: 'password', placeholder: 'Enter your password' }
 ]
 
+const pending = ref(false)
+
 async function handleLogin(formData: Record<string, string>) {
+  pending.value = true
   try {
     const res: LoginResponse = await $fetch(`${useGetApiBase('/login')}`, {
       method: 'POST',
@@ -43,6 +47,8 @@ async function handleLogin(formData: Record<string, string>) {
     const error = err as FetchError<ErrorWithMessage>
     const errMessage = useGetErrorMessage(error.data!)
     show('error', errMessage)
+  } finally {
+    pending.value = false
   }
 }
 </script>

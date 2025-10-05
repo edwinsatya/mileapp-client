@@ -14,7 +14,8 @@
     </div>
     <button
       type="submit"
-      class="w-full cursor-pointer bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+      class="w-full py-2 rounded text-white transition bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:bg-gray-400"
+      :disabled="disabled"
     >
       {{ buttonText }}
     </button>
@@ -27,6 +28,7 @@ import { reactive } from 'vue';
 const props = defineProps<{
   fields: Array<{ name: string; label: string; type: string; placeholder?: string }>
   buttonText: string
+  disabled?: boolean
 }>()
 
 const emit = defineEmits(['submit'])

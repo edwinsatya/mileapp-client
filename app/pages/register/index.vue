@@ -5,6 +5,7 @@
       <auth-form
         :fields="fields"
         button-text="Register"
+        :disabled="pending"
         @submit="handleRegister"
       />
       <div class="mt-4 text-center">
@@ -28,7 +29,10 @@ const fields = [
   { name: 'password', label: 'Password', type: 'password', placeholder: 'Enter your password' }
 ]
 
+const pending = ref(false)
+
 async function handleRegister(formData: Record<string, string>) {
+  pending.value = true
   try {
     const res: RegisterResponse = await $fetch(`${useGetApiBase('/register')}`, {
       method: 'POST',
@@ -41,6 +45,8 @@ async function handleRegister(formData: Record<string, string>) {
     const error = err as FetchError<ErrorWithMessage>
     const errMessage = useGetErrorMessage(error.data!)
     show('error', errMessage)
+  } finally {
+    pending.value = false
   }
 }
 </script>
