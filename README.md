@@ -1,75 +1,52 @@
-# Nuxt Minimal Starter
+# MileApp Frontend
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This is the frontend for **MileApp Task Management**, built with **Nuxt 4**, **Tailwind CSS**, and **Pinia** for state management. It communicates with the MileApp backend for user authentication and task management.
 
-## Setup
+## Features
 
-Make sure to install dependencies:
+- User registration and login
+- JWT-based authentication with route guards using cookie
+- Task CRUD (Create, Read, Update, Delete)
+- Task filtering, sorting, and pagination
+- Authorization: users can only edit/delete their own tasks
+- Responsive design with Tailwind CSS
+- State management with Pinia
 
-```bash
-# npm
-npm install
+## Technologies
 
-# pnpm
-pnpm install
+- [Nuxt 4](https://nuxt.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Pinia](https://pinia.vuejs.org/)
+- Cookie authentication
 
-# yarn
-yarn install
+## Pages
 
-# bun
-bun install
-```
+| Page       | Path       | Description                                      |
+|------------|------------|--------------------------------------------------|
+| Login      | `/login`   | User login page                                  |
+| Register   | `/register`| User registration page                           |
+| Tasks      | `/`        | Display all tasks with filter, sort, pagination |
+| Create Task| `/create`  | Form to create a new task                        |
+| Update Task| `/:id`     | Form to update a task (user can only edit own)  |
 
-## Development Server
+## Features Details
 
-Start the development server on `http://localhost:3000`:
+### Authentication & Route Guard
 
-```bash
-# npm
-npm run dev
+- Only logged-in users can access `/`, `/create`, and `/:id`.
+- Users are redirected to `/login` if not authenticated.
+- JWT token is stored in **Pinia store** or **cookies** for session persistence.
 
-# pnpm
-pnpm dev
+### Task Management
 
-# yarn
-yarn dev
+- **CRUD Operations:** Users can create, read, update, and delete tasks.
+- **Authorization:** Only the creator of a task can edit or delete it.
+- **Filter & Sort:** Tasks can be filtered by title or other properties and sorted by date or status.
+- **Pagination:** Tasks are displayed with pagination to handle large lists.
 
-# bun
-bun run dev
-```
+### State Management
 
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- **Pinia** is used to manage global state for:
+  - User authentication
+  - Task list
+  - Filters, sorting, and pagination settings
